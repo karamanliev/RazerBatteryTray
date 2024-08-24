@@ -1,5 +1,7 @@
 import sys
 import os
+import importlib
+from importlib import import_module
 from time import sleep
 
 from dbus import DBusException
@@ -58,13 +60,23 @@ class RazerBatteryTrayManager:
             self.get_icon(100),
             title=f"{self.device.name}",
             menu=Menu(
+                MenuItem(f"Open Polychromatic", lambda: os.system("polychromatic-controller"), visible=self._has_polychromatic()
+                ),
                 MenuItem(
                     f'Exit Battery Viewer of "{self.device.name}"', lambda: os._exit(0)
-                )
+                ), 
             ),
         )
         tray_icon.run(setup=self.setup_icon)
-
+        
+    def _has_polychromatic(self):
+        packageName = "polychromatic"
+        try:
+            import_module(packageName)
+            return True
+        except ImportError:
+            return False
+        
     def list_devices(self, list_all=False):
         verbose = self.options["verbose"]
 

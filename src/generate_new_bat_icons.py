@@ -54,7 +54,7 @@ def generate_icons(color_percent_dict, charging=False):
         # create the directory if it doesn't exist
         if not os.path.exists(PATH):
             os.makedirs(PATH)
-        
+
         # save the image
         save_path = f"{PATH}/bat_{bat_level}_c.png" if charging else f"{PATH}/bat_{bat_level}.png"
         img.save(save_path)
